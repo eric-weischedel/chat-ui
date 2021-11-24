@@ -20,6 +20,8 @@ import Senku from './assets/avatars/senku.png';
 import Suika from './assets/avatars/suika.png';
 import Tsukasa from './assets/avatars/tsukasa.png';
 
+const SERVER_URL = 'https://ishigami-chat.herokuapp.com/';
+
 const avatarMap = {
   gen: Gen,
   kohaku: Kohaku,
@@ -44,7 +46,7 @@ function App() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const newSocket = io();
+    const newSocket = io(SERVER_URL);
 
     newSocket.on('user-joined', () => {
       setChatLog((log) =>
