@@ -20,6 +20,7 @@ import Senku from './assets/avatars/senku.png';
 import Suika from './assets/avatars/suika.png';
 import Tsukasa from './assets/avatars/tsukasa.png';
 import waitForServer from './utils/waitForServer';
+import Loading from 'react-fullscreen-loading';
 
 const { REACT_APP_CHAT_SERVER_URL } = process.env;
 
@@ -97,7 +98,7 @@ function App() {
     } as ChatMessage);
   };
 
-  return (
+  return socket ? (
     <>
       <Grid
         container
@@ -282,6 +283,8 @@ function App() {
         </Box>
       </Modal>
     </>
+  ) : (
+    <Loading loading={true} background="#FFFFFF" loaderColor="#3498db" />
   );
 }
 
