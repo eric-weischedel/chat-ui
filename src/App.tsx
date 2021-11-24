@@ -46,7 +46,7 @@ function App() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const newSocket = io(SERVER_URL);
+    const newSocket = io(SERVER_URL, {});
 
     newSocket.on('user-joined', () => {
       setChatLog((log) =>
