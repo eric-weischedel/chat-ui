@@ -19,6 +19,7 @@ import Kohaku from './assets/avatars/kohaku.png';
 import Senku from './assets/avatars/senku.png';
 import Suika from './assets/avatars/suika.png';
 import Tsukasa from './assets/avatars/tsukasa.png';
+import waitForServer from './utils/waitForServer';
 
 const { REACT_APP_CHAT_SERVER_URL } = process.env;
 
@@ -46,35 +47,40 @@ function App() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const newSocket = io(REACT_APP_CHAT_SERVER_URL, {});
+    async function startup(): Promise<void> {
+      await waitForServer();
+      const newSocket = io(REACT_APP_CHAT_SERVER_URL, {});
 
-    newSocket.on('user-joined', () => {
-      setChatLog((log) =>
-        log.concat({
-          message: 'Someone joined the chat room.',
-          time: new Date(),
-        })
-      );
-    });
-    newSocket.on('user-left', () => {
-      setChatLog((log) =>
-        log.concat({
-          message: 'Someone left the chat room.',
-          time: new Date(),
-        })
-      );
-    });
-    newSocket.on('chat-message', (message: ChatMessage) => {
-      setChatLog((log) =>
-        log.concat({
-          ...message,
-          time: new Date(),
-          display_name: message.display_name ?? 'Anonymous',
-        })
-      );
-    });
+      newSocket.on('user-joined', () => {
+        setChatLog((log) =>
+          log.concat({
+            message: 'Someone joined the chat room.',
+            time: new Date(),
+          })
+        );
+      });
+      newSocket.on('user-left', () => {
+        setChatLog((log) =>
+          log.concat({
+            message: 'Someone left the chat room.',
+            time: new Date(),
+          })
+        );
+      });
+      newSocket.on('chat-message', (message: ChatMessage) => {
+        setChatLog((log) =>
+          log.concat({
+            ...message,
+            time: new Date(),
+            display_name: message.display_name ?? 'Anonymous',
+          })
+        );
+      });
 
-    setSocket(newSocket);
+      setSocket(newSocket);
+    }
+
+    startup();
   }, []);
 
   const sendMessage = () => {
