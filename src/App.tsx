@@ -10,6 +10,8 @@ import {
   Modal,
   MenuItem,
   Tooltip,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import Send from '@mui/icons-material/Send';
 import Info from '@mui/icons-material/Info';
@@ -46,6 +48,8 @@ function App() {
   const [displayName, setDisplayName] = useState<string>(null);
   const [avatarKey, setAvatarKey] = useState<string>('none');
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const theme = useTheme();
+  const isLarge = useMediaQuery(theme.breakpoints.up('sm'));
 
   useEffect(() => {
     async function startup(): Promise<void> {
@@ -222,11 +226,12 @@ function App() {
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <Box
           sx={{
+            boxSizing: 'border-box',
             position: 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            maxWidth: 400,
+            width: isLarge ? 400 : '90%',
             bgcolor: 'background.paper',
             boxShadow: 24,
             p: 4,
