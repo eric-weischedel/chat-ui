@@ -12,7 +12,7 @@ import {
   MenuItem,
   Tooltip,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from '@mui/material';
 import Send from '@mui/icons-material/Send';
 import Info from '@mui/icons-material/Info';
@@ -56,13 +56,13 @@ function App() {
     palette: {
       mode: 'dark',
       background: {
-        default: '#383838'
+        default: '#383838',
       },
       primary: {
         light: '#63A52F',
         main: '#63A52F',
         dark: '#63A52F',
-        contrastText: '#FFFFFF'
+        contrastText: '#FFFFFF',
       },
     },
   });
@@ -129,7 +129,7 @@ function App() {
           paddingBottom: 25,
           paddingRight: 25,
           paddingLeft: 25,
-          backgroundColor: darkTheme.palette.background.default
+          backgroundColor: darkTheme.palette.background.default,
         }}
       >
         <Grid item>
@@ -199,7 +199,10 @@ function App() {
                         )}
                       </Grid>
                       <Grid item>
-                        <Typography variant="body2" color={darkTheme.palette.text.primary}>
+                        <Typography
+                          variant="body2"
+                          color={darkTheme.palette.text.primary}
+                        >
                           {message.message}
                         </Typography>
                       </Grid>
@@ -256,7 +259,11 @@ function App() {
             p: 4,
           }}
         >
-          <Typography variant="h6" sx={{ mb: 2 }} color={darkTheme.palette.text.primary}>
+          <Typography
+            variant="h6"
+            sx={{ mb: 2 }}
+            color={darkTheme.palette.text.primary}
+          >
             Profile
           </Typography>
           <TextField
@@ -308,7 +315,11 @@ function App() {
       </Modal>
     </ThemeProvider>
   ) : (
-    <Loading loading={true} background="#FFFFFF" loaderColor="#3498db" />
+    <Loading
+      loading={true}
+      background={darkTheme.palette.background.default}
+      loaderColor={darkTheme.palette.primary.main}
+    />
   );
 }
 
