@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import io, { Socket } from 'socket.io-client';
 import {
   Button,
@@ -50,6 +51,21 @@ function App() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up('sm'));
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      background: {
+        default: '#383838'
+      },
+      primary: {
+        light: '#63A52F',
+        main: '#63A52F',
+        dark: '#63A52F',
+        contrastText: '#FFFFFF'
+      },
+    },
+  });
 
   useEffect(() => {
     async function startup(): Promise<void> {
@@ -103,7 +119,7 @@ function App() {
   };
 
   return socket ? (
-    <>
+    <ThemeProvider theme={darkTheme}>
       <Grid
         container
         direction="column"
@@ -113,6 +129,7 @@ function App() {
           paddingBottom: 25,
           paddingRight: 25,
           paddingLeft: 25,
+          backgroundColor: darkTheme.palette.background.default
         }}
       >
         <Grid item>
@@ -154,6 +171,7 @@ function App() {
                           lineHeight="1rem"
                           display="inline"
                           gutterBottom
+                          color={darkTheme.palette.text.primary}
                         >
                           {message.display_name ?? 'System'}
                         </Typography>
@@ -169,6 +187,7 @@ function App() {
                               lineHeight="1rem"
                               display="inline"
                               gutterBottom
+                              color={darkTheme.palette.text.secondary}
                             >
                               &nbsp; &nbsp;
                               {message.time.toLocaleTimeString([], {
@@ -180,7 +199,7 @@ function App() {
                         )}
                       </Grid>
                       <Grid item>
-                        <Typography variant="body2">
+                        <Typography variant="body2" color={darkTheme.palette.text.primary}>
                           {message.message}
                         </Typography>
                       </Grid>
@@ -232,12 +251,12 @@ function App() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: isLarge ? 400 : '90%',
-            bgcolor: 'background.paper',
+            bgcolor: darkTheme.palette.background.default,
             boxShadow: 24,
             p: 4,
           }}
         >
-          <Typography variant="h6" sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mb: 2 }} color={darkTheme.palette.text.primary}>
             Profile
           </Typography>
           <TextField
@@ -287,7 +306,7 @@ function App() {
           </Button>
         </Box>
       </Modal>
-    </>
+    </ThemeProvider>
   ) : (
     <Loading loading={true} background="#FFFFFF" loaderColor="#3498db" />
   );
